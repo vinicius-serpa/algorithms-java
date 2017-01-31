@@ -8,36 +8,35 @@ public class DistinctPermutation {
 	private static char[] p;
 	private static String sequence;
 	private static ArrayList<String> buffer = new ArrayList<String>();
+	private static int[] used;
 
 	public static void permutation(char[] vet) {
+
+		used = new int[vet.length];
+		for (int i = 0; i < used.length; i++)
+			used[i] = 0;
+
 		p = new char[vet.length];
-		permutation(vet, 0);
+		permutation(vet, 0, used);
 		printBuffer();
 	}
 
-	private static void permutation(char[] vet, int n) {
+	private static void permutation(char[] vet, int n, int[] used) {
 
 		if (n == vet.length) {
 			count++;
-			print();
+			buffering();
 		} else {
-
 			for (int i = 0; i < vet.length; i++) {
-
-				boolean found = false;
-
-				for (int j = 0; j < n; j++) {
-					if (p[j] == vet[i])
-						found = true;
-				}
-
-				if (!found) {
+				if (used[i] == 0) {
 					p[n] = vet[i];
-					permutation(vet, n + 1);
+					used[i] = 1;
+					permutation(vet, n + 1, used);
+					used[i] = 0;
 				}
-
 			}
 		}
+
 	}
 
 	private static void buffering() {
